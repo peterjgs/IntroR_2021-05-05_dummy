@@ -1,0 +1,188 @@
+---
+title: "Importing data, Packages and the tidyverse"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Importing data
+
+Before we can run any data analyses or create figures in R, we need to import that data into R. 
+
+## How to import an existing dataset
+1. Close your R session, we want to make sure you can do this from scratch.
+2. Download the [`Sessile.csv`](https://www.dropbox.com/sh/5biuat3iusltvwe/AAAQ0HTe3OlKl3DiPbvdlRJma?dl=0) dataset and put it in your project directory (remember we created a project for this course earlier and you chose a directory). 
+3. Open `Sessile.csv` and have a look: it has 60 rows and 6 columns. The Richness, Temp, Depth and Abund columns are numeric, and the others are categorical. 
+4. Open your project in RStudio by double clicking the .RProj file (a little blue cube with an R in it).
+5. Open a script file to use (and save it).
+6. You can now use the `read.csv()` command to read the data into R.
+
+```{r include=FALSE}
+sessile <- read.csv("../data/Sessile.csv")
+```
+
+```{r eval=FALSE}
+sessile <- read.csv("Sessile.csv")
+```
+
+This code reads the contents of `Sessile.csv` and saves it as a data frame called `sessile`. Notice the file name has a `.csv` and is in double quotes. 
+
+## Checking and manipulating imported data
+
+We can then have a look at what RStudio has imported using the `str()` function.
+
+```{r}
+str(sessile)
+```
+
+The variables seem to have been imported in the right format. The summary function will give you a little more detail about the variables in your data. 
+
+```{r}
+summary(sessile)
+```
+
+
+We can see that Richness varies between 38 and 81. As Copper has been read into R as a character variable, `summary` only tells us that there are 60 values in the variable.  We know (because it is our data!) that it has three categories. If a variable is a categorical variable with a particular set of values, it's usually a good idea to make it a *factor* variable. 
+
+```{r}
+
+sessile$Copper <- factor(sessile$Copper)
+
+str(sessile$Copper)
+
+```
+
+
+With the variables in the right format, you can then use this data in R Studio. For example, to calculate the mean and standard deviation of Richness:
+
+```{r}
+mean(sessile$Richness)
+sd(sessile$Richness)
+```
+
+To look at the first three rows of the data:
+
+```{r}
+sessile[1:3,]
+```
+
+A shortcut way to do this is using the `head` function, which gives you the first 6 rows by default.
+
+```{r}
+head(sessile)
+```
+
+## Creating data to import
+
+While you may know how to create a vector and a small data frame in R, it's really not convenient to enter data directly into R when you are creating a larger dataset to work with later.  Instead, it's much easier to work in a spreadsheet application, such as Excel or Numbers.  Data entry in a spreadsheet is simple and it's very easy to save the completed data set in a format readable by various programs.  
+
+### What should a dataset look like?
+Basically, a dataset should have separate variables in each column. Each row should contain the values in each variable for an individual case. So, for example, in a small study on educational test scores in a school, the dataset may look like: 
+
+| studentID | gender | mathscore | readingscore |
+|-----------|--------|-----------|--------------|
+| 1         | male   | 78        | 87           |
+| 2         | female | 92        | 99           |
+| 3         | male   | 87        | 93           |
+| 4         | male   | 70        | 73           |
+| 5         | female | 94        | 95           |
+| 6         | female | 90        | 83           |
+| 7         | female | 85        | 72           |
+| 8         | male   | 90        | 93           |
+
+
+So, student 1 is a male who achieved 78 on the maths test and 87 on the reading test.
+
+### General tips for data entry
+In general, in a dataset, each column contains one variable and each row contains one case.
+Keep your data on one worksheet within the spreadsheet. Unless you are working with an extremely complex dataset (in which case, you wouldn't be doing data management with a spreadsheet program anyway), it's much easier for you to keep everything on the same worksheet, rather than work with separate ones.
+
+### Variable Names
+
+- Keep the names simple and descriptive.  
+- Use only lower and upper case English letters, numbers and punctuation marks.  If you begin your variable name with a number or a punctuation mark, R will prefix the the variable name with an "X" when you import the .csv file.
+- In R, a variable named mathscore is not the same as a variable named mathScore. That is, in the same dataset, you could have one variable named mathscore and a different one named mathScore (although this might be a bit confusing!).
+- If you need to document what the variables are, keep the descriptions in a different file.
+- For string (character) variables, spelling and capitalisation matters. Entering "male" and "Male" will result in two different categories.
+- In your spreadsheet program, save the file in .csv format (comma separated format).  This is a general format that is readable by many statistical programs.  
+- More information is available [here](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).  
+
+### Saving the file
+All the files for this course will be in the .csv format. This is a general format that is readable by many programs. It allows only one sheet or data to be saved. To save you data as a .csv in Excel go to File -> Save As, chose the directory you want to save the file to (your Project directory), chose a file name, then under the file name will be a box for file type, chose CSV (Comma delimited) (*.csv).
+
+# Challenges
+1. Create a data set in Excel with at least three columns and ten rows. Have at least one numeric and one categorical column. 
+2. Save the data as a .csv file in your project directory.
+3. Read your data set into R and check that everything is okay.
+
+Make sure you use comments to explain what each line of code in your script file does. Save the file in your project directory. 
+
+
+
+# Installing packages and the tidyverse package
+
+Once upon a time there was only base R. Code was ugly and impossible to read, plots were ugly and difficult to make. Then one day, the tidyverse was created, and R became usable by mere humans. Because you are learning R in a post tidyverse time, you will likely not know any base R (except the tiny bit I taught you already). From here on we will all live happily ever after in the tidyverse.
+
+Packages in R are just bits of extra code other people have written that you can use. You will be installing packages all the time in your R travels, they are what makes R so useful and flexible. It is very easy to do. You need to know the name of the package (in this case tidyverse) and then you can just call the `install.packages()` function. You only have to do this once on each computer.
+
+```{r eval=FALSE}
+install.packages("tidyverse")
+```
+
+This will take a little while, the tidyverse is vast. The main packages we will be using that are inside the tidyverse are `tidyr`, `dplyr` for manipulating data, and `ggplot2` for plotting.
+
+To be able to use a package we have installed we need to load the package using the `library()` command. Loading a package must be done every time you open R/RStudio.
+```{r}
+library(tidyr)
+```
+
+## The Pipe
+
+One of the great inventions of the tidyverse is the Pipe ( `%>%` ). It lets us organise code in a way that is more readable. You can find it in the `tidyr` package we loaded above.
+
+Say I want to take the numbers 1 to 5, *then* take the sine, *then* take the absolute value, *then* the square root. In base R the code for that looks like this. 
+
+```{r}
+x=1:5
+sqrt(abs(sin(x)))
+```
+
+This is okay, but a bit hard to read, and it's a bit unclear which bracket belongs where. Using the pipe (and reading the pipe as "then") we can write the same operation more naturally.
+
+```{r}
+x %>% 
+  sin %>% 
+  abs %>% 
+  sqrt
+```
+
+This will make our life easier when our code gets more complicated. 
+
+## Challenges
+
+
+1. Install and load the `lubridate` R package. We won't use the package in this course, it's just for practice. It is useful for working with dates and times.
+
+
+## Challenge solutions
+
+### Importing data
+
+This will differ for everyone, so no solutions.
+
+### Packages
+
+1. Install and load the `lubridate` R package.
+
+```{r eval=FALSE}
+install.packages("lubridate")
+library(lubridate)
+```
+
+
+**Author**: Gordana Popovic
+
+**Last updated**: `r format(Sys.time(), '%d %B, %Y')`
+

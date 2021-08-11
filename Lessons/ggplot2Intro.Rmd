@@ -1,0 +1,200 @@
+---
+title: "Plotting in R with ggplot2"
+output: html_document
+fig_width: 3 
+fig_height: 2 
+---
+
+# Import data to plot
+We are going to plot some data about cars that is contained in the [`cars93.csv`](https://www.dropbox.com/s/5cix5ijqrc8lv5a/cars93.csv?dl=0) file. First we import the data.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r eval=TRUE, include=FALSE}
+cars <- read.csv("../data/cars93.csv")
+```
+
+```{r eval=FALSE, include=TRUE}
+cars <- read.csv("cars93.csv")
+```
+
+Let's have a quick look at the data first.
+```{r}
+head(cars)
+```
+
+```{r}
+summary(cars)
+```
+
+
+# Install and load ggplot2
+
+The `ggplot2` package is in the `tidyverse`, which we have already installed. If you need to install it on another computer without installing the whole tidyverse, you will know form last lesson how to do this.
+
+```{r eval=FALSE}
+install.packages("ggplot2")
+```
+
+Remember, when you are using ggplot2 (or any package) in any R session, you have to tell R to load the ggplot2 library before you can access its commands. You have to do this every time you open a new session of R.
+
+```{r load2, message=FALSE, warning=FALSE}
+library(ggplot2)
+```
+
+ 
+# Plot types
+
+## Two continuous variables (scatterplot)
+
+The basic elements of a command in ggplot2 are data `cars`, aesthetics `aes(x,y)`, and plot type `geom_point()`. 
+
+```{r scatterplot1, fig.height = 3, fig.width = 5}
+ggplot(cars, aes(x = weight, y = cityMPG)) + 
+  geom_point()
+```
+ 
+Can you see your plot? Did you get an error `Error in plot.new() : figure margins too large`? These both happen because the plots come up in a plane on the left that you may have squished is you have only one screen. Time to un-squish the left plane. 
+ 
+Wanna be fancy? Add a trend line with `+geom_smooth()`.
+
+```{r , fig.height = 3, fig.width = 5}
+ggplot(cars, aes(weight, cityMPG)) + 
+  geom_point() + 
+  geom_smooth()
+```
+
+I have not used `x=weight` and `y=cityMPG` this time, if I don't specify, then `ggplot` will assume the first variable is the `x` variable, and the second is `y`,
+
+What if we want different colours by car type? All you go is add a `color =` statement inside `aes()`.
+
+```{r , fig.height = 3, fig.width = 5}
+ggplot(cars, aes(weight, cityMPG, color = type)) + 
+  geom_point()
+```
+
+We can add smooth lines with `geom_smooth()`, but it's a bit messy here, so I will add straight lines with `method="lm"`. Also, I don't want shading, so I will add `se=FALSE`.
+
+
+```{r , fig.height = 3, fig.width = 5}
+ggplot(cars, aes(weight, cityMPG,color=type)) + 
+  geom_point() + 
+  geom_smooth(se=FALSE,method="lm")
+```
+
+
+## One continuous variable (histogram or boxplot)
+
+Histograms are easy, we just need one variable inside `aes()`, if we want just one histogram.
+
+```{r boxplot1, fig.height = 3, fig.width = 5}
+ggplot(cars, aes(x=cityMPG)) + 
+  geom_histogram()
+```
+
+Change to boxplot by changing the plot type and specifying `y` variable. 
+
+```{r hist1, fig.height = 3, fig.width = 5}
+ggplot(cars, aes(y=cityMPG)) + 
+  geom_boxplot()
+```
+
+## One continuous variable and one categorical variable (boxplot)
+
+
+We can do box plots by type by setting type as the `x` variable. 
+```{r , fig.height = 3, fig.width = 5}
+ggplot(cars, aes(x=type,y=cityMPG)) + 
+  geom_boxplot()
+
+```
+
+
+And add colours by specifying either color (as before) or fill.
+```{r boxplot2, fig.height = 3, fig.width = 5}
+ggplot(cars, aes(type,cityMPG,fill=type)) + 
+  geom_boxplot()
+
+```
+
+## One categorical variable (barplot)
+
+To plot one categorical variable `type` we can make a barplot with `geom_bar()`.
+```{r}
+ggplot(cars, aes(type)) +
+    geom_bar()
+```
+
+You can make the categories different colours with the `fill=` option using the same variable again.
+```{r}
+ggplot(cars, aes(type,fill=type)) +
+    geom_bar()
+```
+
+## Two categorical variables (barplot)
+
+We have two options for bar plots for two categorical variable. The defaults is a stacked bar plot. You just add the second variable as the `fill=` option.
+```{r}
+ggplot(cars, aes(type,fill=fuelEco)) +
+    geom_bar()
+```
+
+If you prefer a side by side bar chart, you just add the option `position = "dodge"`.
+```{r}
+ggplot(cars, aes(type,fill=fuelEco)) +
+    geom_bar(position = "dodge")
+```
+
+# Customisation
+
+## Labels
+
+You can change the default x and y labels with `xlab()` and `ylab()`, and add a title with `ggtitle()`. This is demonstrated on the scatterplot from earlier.
+```{r , fig.height = 3, fig.width = 5}
+ggplot(cars, aes(weight, cityMPG,color=type)) + 
+  geom_point() +
+  ylab("Miles per gallon") +
+  xlab("Weight (kg)") +
+  ggtitle("Mileage of cars v.s. their weight")
+```
+
+## Themes 
+
+Themes let you easily change the look of your graph with one simple function. There are lots of themes available, the most commonly used are `theme_bw()` and `theme_classic()`.
+
+```{r , fig.height = 3, fig.width = 5}
+ggplot(cars, aes(weight, cityMPG,color=type)) + 
+  geom_point() +
+  ylab("Miles per gallon") +
+  xlab("Weight (kg)") +
+  ggtitle("Mileage of cars v.s. their weight") +
+  theme_classic()
+```
+
+# Challenges
+
+We will use the `CO2` data, which is stored in R and can be accessed by typing `CO2` (into your console), no need to import. Make sure all of your plots have appropriate titles and axis labels. Use `ggplot2` for this challenge.
+
+1. How many variables are in the CO2 data set and what kinds are they?
+
+Hint:
+```{r include=TRUE, eval=FALSE}
+str(CO2)
+```
+
+2. Create a histogram of the variable `uptake`.
+3. Create a boxplot of `uptake` by `Treatment`, with different colours for each treatment.
+4. Create a scatter plot of `uptake` by `conc`, with different colours and symbols by Treatment.
+5. Add a smooth line to the previous plot with `geom_smooth()` to better see the patterns.
+
+Make sure the script file you have explains what each line of code does with comments and save it in your project directory. 
+
+# Resources
+
+We have covered the basic functionality of `ggplot2`, but there are lots of bells and whistles available. A good place to find out more about is the [cheatsheet](https://rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf). Also, have a look at the extensive [R graph gallery](https://www.r-graph-gallery.com/) for code for every possible plot you can imagine.
+
+**Authors**: Gordana Popovic & Mark Donoghoe  
+
+**Last updated**: `r format(Sys.time(), '%d %B, %Y')`

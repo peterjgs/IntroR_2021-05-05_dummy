@@ -1,0 +1,391 @@
+---
+title: "Basics of interacting with R"
+output: html_document
+---
+
+# 1. First R/Rstudio interaction
+
+## Arithmetic
+
+```{r include=FALSE}
+library(png)
+library(grid)
+```
+
+
+R is a calculator. It can carry out calculations, but it can also store the answers to your calculations, as well as data you have saved elsewhere. Like a calculator it is stupid, it only knows what you tell it, if you don't give it data, it won't know where to find it, if you tell it something it doesn't expect, it will cry (give an error) or worse yet, give you the wrong answer.
+
+Commands can be entered into the console directly, or into a script file. Let's start with the console. Let's make R calculate 3 + 4
+
+```{r}
+3 + 4
+```
+(There are spaces between the numbers and the plus, but they're not needed: R doesn't care about spaces, it just looks neater)
+
+Here are some other arithmetic operations
+
+* Addition: +
+* Subtraction: -
+* Multiplication: *
+* Division: /
+* Exponentiation: ^
+
+## Variables
+
+R can store things. It will store anything you ask it to in a variable with any name you like. We use the assignment operator `<-` to assign values to variables.
+
+```{r}
+my_var <- 4
+```
+This command has no output. The reason is that we didn't ask R to give us any output. All we asked is that the value 4 be assigned to the variable `my_var`. If we want the value of `my_var` we can ask R for it by simply typing `my_var` in the console.
+
+```{r}
+my_var
+```
+You can use any variable name you like, but you can't start variable names with a number. Make sure when you refer to a variable the spelling is correct as well as capitalization. R cares very much about these things.
+
+```{r,error = TRUE,message = FALSE}
+my_Var
+my_val
+```
+
+This is a bit boring though, what we really want to do is save our answers. That works just as easily.
+
+```{r}
+sol <- 9 / 3
+sol
+```
+
+We can also do things with the variables we save.
+
+```{r}
+income <- 23000
+expenses <- 12000
+savings <- income - expenses
+savings
+```
+
+
+# 2. Saving your work 
+
+## Create a project
+
+We have been writing directly into the console. For simple things like this that's okay, but it's very inefficient. You should always store all your code in a separate file, so you have it later on, or can edit it and rerun. The code you write is your hard work, and you don't want to waste it by having it disappear when you close R. 
+
+Projects are by far the easiest way to organise your work in RStudio. To create a project click File > New Project > New Directory > New Project. Here you will need to name your new folder, I named mine IntroRCourse, and also browse for where you want this new folder to be created. 
+
+```{r echo=FALSE, fig.height=4, fig.width=6}
+img <- readPNG("../pics/RProj.png")
+grid.raster(img)
+```
+
+This does a few useful things
+
+- You have created a folder on your computer for your project.
+- Any file you save from R (while you have the project open) will now be saved in this folder . 
+- If you want to start working on the same project again, just go to your project folder and double click on the RProj file, and you can start exactly where you left off.
+- If you want to import data into R, it is very simple if you store your data into your project folder.
+- You can change between projects using the drop down on the very top right-hand corner of your RStudio.
+
+## Create a script file
+
+A script file is just a text file where you write and save your code. To create your first scrip go to File > New File > R Script. It is best practice to save and name this file right away using the save button, make sure you name it something sensible (like Basics). 
+
+We will now completely stop writing into the console. All your code from now on will be written into your script file. Unlike typing in the console, when you type things in the script file nothing will happen, it is just a repository of your code. If you want to execute any part of your script, there are a number of ways. The easiest (to start with) is to highlight the bit of code you want to execute , and then click Run in the top corner of your script. 
+
+Let's try this with one of the earlier examples. Here I have copied an earlier example into my script file and then run only the first two lines of it. You can see the lines I run appear in the console below.
+
+```{r echo=FALSE, fig.height=4, fig.width=6}
+img <- readPNG("../pics/RunCode.png")
+grid.raster(img,vjust=0.5)
+```
+
+The whole point with script files it the flexibility. If you need to change your income (because you got a raise) you only need to change that bit of code, and then you can rerun the whole code again, and the changes will flow though. No need to retype everything.
+
+```{r echo=FALSE, fig.height=4, fig.width=6}
+img <- readPNG("../pics/RunCode2.png")
+grid.raster(img,vjust=0.5)
+```
+
+You can see I've added comments to my code. This is easy and very important, any line starting with a # is a comment, and R will just ignore it when executing code. The comments should explain the code to anyone reading it (either others or you at a later time).
+
+From now on, any code you run should first be written in your script, then run. If you made an error, edit the code in your script and run.
+
+
+# 3. Creating and manipulating objects
+
+
+## Data types
+
+Apart from numbers, which we've already dealt with, R can handle some other data types. These are:
+
+* Boolean values (TRUE or FALSE) are called logical (these are confusing and will make more sense later when we use them).
+* Text (or string) values are called characters (i.e. words).
+
+```{r}
+# is bob a citizen?
+bob_cit <- TRUE
+bob_cit
+
+# car colour
+carcol <- "blue"
+carcol
+```
+
+You can check the data type using the `str()` function. Logical vectors can only take the values `TRUE` or `FALSE` in capitals.
+
+```{r}
+str(bob_cit)
+```
+
+
+
+
+
+## Vectors
+
+Things get pretty boring pretty quick if we have to work with one number at a time. If we want to have whole datasets with rows and columns, we will need to stick numbers together into vectors, data frames and matrices. We start with vectors; these are just rows of numbers. You can create a vector by using the `c()` function (c is for concatenate).
+
+Remember not to type/copy the code into your console, but in your script, and then run the code from the script.
+
+```{r}
+# bird count for three days
+birds <- c(3 , 9 , 7)
+birds
+```
+
+You can now carry our arithmetic on each element of the vector at once.
+
+```{r}
+wings <- birds*2
+wings
+```
+
+(Note on naming:  It is best to avoid naming variables things that might be functions, like `mean`, `variance` etc. because that will override the functions and they won't work, also it is confusing)
+
+The other thing you can do with vectors is calculate things on the whole vector, like a mean.
+
+```{r}
+averg <- mean(wings)
+averg
+```
+
+You can also have vectors of the other data types
+
+```{r}
+citizens <- c(TRUE,TRUE,FALSE,TRUE)
+cars_col<- c("blue", "green", "blue")
+```
+
+The `length()` function tells you how long your vector is, is useful for checking you didn't make a mistake.
+
+```{r}
+length(citizens)
+length(cars_col)
+```
+
+To extract just one component of a vector, we use square brackets `[]`. So to extract the 6th component of longV (which is 7)
+
+```{r}
+longV <- c(4,8,2,5,9,7,0)
+longV[6]
+```
+
+We can also replace elements of vectors this way. Think carefully about this. The 6 in brackets is the place we are changing (the sixth number along, which is currently 7). We are then changing this number to a 16. 
+
+```{r}
+longV[6]<-16
+longV
+```
+
+
+If you would like a few of the elements, then we can create a vector of the positions of the elements you like. For example, to extract the 3rd, 5th and 6th elements:
+
+```{r}
+longV[c(3,5,6)]
+```
+
+
+## Creating patterns
+
+Say you want to create a vector which is all the numbers from 3 to 15, you can use the `:` operator.
+
+```{r}
+three2fifteen <- 3:15
+three2fifteen
+```
+
+You can also use this trick to extract consecutive elements of a vector.
+
+```{r}
+longV[3:5]
+```
+
+
+## Matrices
+
+Matrices are like vectors, except they have both rows and columns. You won't use them much, feel free to skim this section.
+
+You can create matrices using the `matrix` function. The vector you put inside is filled into the number of rows and columns by going down the columns, so that's how you have to enter it.
+
+```{r}
+boring_matrix <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 3, ncol = 2)
+boring_matrix
+```
+
+We can check the type of data (numeric, logical or character) stored in the matrix using the `str()` function.
+
+```{r}
+str(boring_matrix)
+```
+
+Anything you can do with vectors you can do with matrices.
+
+```{r}
+triple.mat <- boring_matrix*3
+triple.mat
+triple.mat-12
+```
+
+To extract elements of a matrix, we have to tell it both the row and column of the element we want.
+
+```{r}
+boring_matrix[3,2]
+```
+
+If we try to extract an element that doesn't exist, we get an error.
+```{r,error = TRUE,message = FALSE}
+boring_matrix[3,3]
+```
+
+You can also extract a whole row (or column) by leaving the other dimension blank. For example, to extract the second column:
+
+```{r}
+boring_matrix[,2]
+```
+
+
+## Data frames
+
+Data frames are R's solution to spreadsheets. Columns are variables (saved as vectors) and are stuck together into a dataset.
+
+```{r}
+abund <- c(3,6,4,3,7,9)
+treat <- c("treat","treat","treat","contr","contr","contr")
+```
+
+```{r}
+experiment_dat <- data.frame(treat,abund)
+experiment_dat
+```
+
+Later when we import data from other sources, like Excel, it will automatically be stored in a data frame. To extract a particular column of a data frame, we can use the same syntax as for matrices.
+
+```{r}
+experiment_dat[,2]
+```
+Or if you know the name of the column, you can use the `$` sign.
+
+```{r}
+experiment_dat$treat
+```
+To find the names of all the columns of a dataset you can use the `colnames()` function.
+
+```{r}
+colnames(experiment_dat)
+```
+Lots of other information about your data frame can be found by using the `str()` function.
+ 
+```{r}
+str(experiment_dat)
+```
+
+
+# 4. Bits and bobs
+
+## Logical operations
+
+These are really useful for lots of reasons. The (logical) comparison operators known to R are:
+
+* `<` for less than
+* `>` for greater than
+* `<=` for less than or equal to
+* `>=` for greater than or equal to
+* `==` for equal to each other
+* `!=` not equal to each other
+
+
+```{r}
+4>6
+7>6
+```
+
+So when a statement is true, the logical assignment gives it a value `TRUE`, and otherwise `FALSE`. We can also use this with vectors. Say you want to know which elements of `longV` are greater than 6.
+
+```{r}
+longV <- c(4,8,2,5,9,7,0)
+long.gt6 <- longV > 6
+long.gt6
+```
+
+To extract just the elements of `longV` that are greater than 6:
+
+```{r}
+longV[longV > 6]
+```
+
+`TRUE` and `FALSE` sometimes behave like 1 and 0. For example, if you add up a logical vector, it will give you the number of `TRUE` values. To find the proportion of `TRUE` values we can add up all the `TRUE` values using the `sum` function, and then divide by the number of values (using the `length` function.)
+
+```{r}
+sum(long.gt6)
+length(long.gt6)
+prop.gt6 <- sum(long.gt6)/length(long.gt6)
+prop.gt6
+```
+
+
+
+## Missing data
+
+Often there will be data missing in your dataset. In R this is allocated as `NA`. If R is not expecting missing values, you might get an error or an unexpected result.
+
+```{r}
+miss.vec <- c(3,6,4,NA,8)
+mean(miss.vec)
+```
+
+
+
+## Help files
+
+If you know the name of a function you want to use, but not how to use it, you can use the `?` command to get a help file. To find out how the `mean` function works.  
+
+```{r,eval=FALSE}
+?mean
+```
+
+If we read the file, we find out that if we want the mean function to ignore missing values, we can add `na.rm = TRUE`.
+```{r}
+mean(miss.vec,na.rm = TRUE)
+```
+
+# 5. Challenges
+
+For all the challenges, try to use informative names for your variables and save the whole thing in a new script file with an informative name.
+
+1. Create a variable which stores the difference of 8 and 5 (i.e. 8 - 5).
+2. The heights of some flowers in an experiment are 45, 51, 33, 23, 65, 11. Create a vector with this data.
+3. Create a variable that stores the average height of the flowers.
+4. There was a data entry error. The third height should have been 35 instead of 33. Replace this element of your vector with the correct number.
+5. The first three flowers were of species A and the last three were from species B. Extract just the heights of species A.
+6. The weight of these flowers is approximately equal to the height times 1.8. Create a new vector with this information.
+7. Create a data frame with height and biomass.
+
+Make sure you explain in your script file what each line of code does by adding comments (i.e. a line beginning with #) and save the file in your directory. You will thank yourself later for adding these comments!
+
+
+**Author**: Gordana Popovic
+
+**Last updated**: `r format(Sys.time(), '%d %B, %Y')`
+
+

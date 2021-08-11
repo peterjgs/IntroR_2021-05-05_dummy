@@ -1,0 +1,185 @@
+---
+title: "Subsetting and summarising data with dplyr"
+output: html_document
+---
+
+# The `dplyr` package
+
+`dplyr` is one of the most commonly used tidyverse packages. It was designed to let you manipulate data, primarily by subsetting and summarising data using very elegant and simple syntax that is available with the help of the other tidyverse packages.
+
+```{r message=FALSE, warning=FALSE}
+library(dplyr)
+```
+
+## Subsetting with dplyr
+
+First we will read in some data to work on. 
+
+```{r include=FALSE}
+sessile <- read.csv("../data/Sessile.csv")
+```
+
+```{r eval=FALSE}
+sessile <- read.csv("Sessile.csv")
+```
+
+```{r}
+str(sessile)
+```
+
+### Selecting columns
+
+This dataset contains 60 observations of 6 variables of various types. Say we don't really need all these variables, we are only interested in `Copper`,`Orientation`, `Temp` and `Abund`, so we will select these variables.
+
+```{r}
+sessile_sub <- sessile %>% 
+  select(Copper, Orientation, Temp, Abund)
+head(sessile_sub)
+```
+
+Here we took the `sessile` dataset, then selected the variables `Copper`,`Orientation`, `Temp` and `Abund` and saved the result in a new data frame called `sessile_sub`.
+
+### Filtering rows
+
+The next thing we want to do is keep only the observations where `Copper` is `High`, we will add a pipe to our previous code.
+
+```{r}
+sessile_sub <- sessile %>% 
+  select(Copper, Orientation, Temp, Abund) %>% 
+  filter(Copper == "High")  
+  
+str(sessile_sub)
+```
+
+We now have a dataset with the four columns we selected and the 20 rows we filtered.
+
+### Creating new columns/variables
+
+The temperature in our data is in Celsius, we would like to have temperature in Fahrenheit. The formula is $°F=(°C × 9/5) + 32$. We will add the mutate function to the previous piped code.
+
+```{r}
+sessile_sub <- sessile %>% 
+  select(Copper, Orientation, Temp, Abund) %>% 
+  filter(Copper == "High") %>% 
+  mutate(TempF = (Temp * 9/5) +32)
+head(sessile_sub)
+```
+
+### More filtering
+
+To finish off, let's also filter out any sites that have a temperature (in Fahrenheit) more than 60, just to see how to filter continuous variables.
+
+```{r}
+sessile_sub <- sessile %>% 
+  select(Copper, Orientation, Temp, Abund) %>% 
+  filter(Copper == "High") %>% 
+  mutate(TempF = (Temp * 9/5) +32) %>% 
+  filter(TempF <=60 ) 
+
+str(sessile_sub)
+```
+
+There are now only 8 observations left.
+
+## Summarising data
+
+Data summaries are a great way to understand and display your data. They can be very easily done with `dplyr`. The sessile data is the result of an experiment where the amount of copper and orientation were varied, and richness and abundance were measured. It would be nice to see summaries of the measured variables for different values of `Copper` and `Orientation`. To do this we will group the data by `Copper` and `Orientation` and then summarise `Richness` and `Abund` by calculating  their means.
+
+```{r}
+sessile %>% 
+  group_by(Copper,Orientation) %>% 
+  summarise(RichMean=mean(Richness),AbundMean=mean(Abund))
+```
+
+This gives us means for `Richness` and `Abund` for the different combinations of `Copper` and `Orientation`.
+
+As another example, say we don't care about `Orientation`, but we do want the standard deviation and the maximum value of `Richness`.
+
+```{r}
+sessile %>% 
+  group_by(Copper) %>% 
+  summarise(RichMean=mean(Richness),RichSD=sd(Richness),RichMax=max(Richness))
+```
+
+## Challenges
+
+We will use the CO2 data, which is stored in R and can be accessed by typing CO2.
+
+1. How many variables are in the CO2 data set and what kinds are they?
+2. We will only need the variables `Type`, `uptake` and `Treatment`. Use the `select()` function to create a new dataset with only those variables.
+2. Use the `filter()` function to select only the data from Quebec (add to previous question pipe).
+3. Use the `filter()` function to select only the rows with uptake greater than 40 (add to previous question pipe).
+4. For the full data, create a summary of uptake by Treatment (the summary should include the mean, variance, minimum and maximum values).
+5. For the full data, create a summary of uptake by both Treatment and Type.
+
+Make sure the script file you have explains what each line of code does with comments and save it in your directory. 
+
+## Resources
+
+`dplyr` has heaps more functionality than what we've covered. Two other major things that can be done with `dplyr` are
+
+- [Reshaping data](https://cengel.github.io/R-data-wrangling/tidyr.html)
+- [Combining datasets](https://rpubs.com/williamsurles/293454)
+
+A good place to find out more about `dplyr` is the [cheatsheet](https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) and the [vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html).
+
+## Challenge solutions
+
+1. How many variables are in the CO2 data set and what kinds are they?
+
+```{r}
+str(CO2)
+```
+
+There are 5 variables, two continuous, two factor and one ordinal factor.
+
+2. We will only need the variables `Type`, `uptake` and `Treatment`. Use the `select()` function to create a new dataset with only those variables.
+
+```{r}
+CO2 %>% 
+  select(Type,uptake,Treatment)
+```
+
+2. Use the `filter()` function to select only the data from Quebec (add to previous question pipe).
+
+```{r}
+CO2 %>% 
+  select(Type,uptake,Treatment) %>% 
+  filter(Type=="Quebec")
+  
+```
+
+3. Use the `filter()` function to select only the rows with uptake greater than 40 (add to previous question pipe).
+
+```{r}
+CO2 %>% 
+  select(Type,uptake,Treatment) %>% 
+  filter(Type=="Quebec") %>% 
+  filter(uptake>40)
+```
+
+4. Create a summary of uptake by Treatment (the summary should include the mean, variance, minimum and maximum values).
+
+```{r}
+CO2 %>% 
+  group_by(Treatment) %>% 
+  summarise(uptake_mean=mean(uptake),
+            uptake_var=var(uptake),
+            uptake_min=min(uptake),
+            uptake_max=max(uptake))
+```
+
+5. Create a summary of uptake by both Treatment and Type.
+
+```{r}
+CO2 %>% 
+  group_by(Treatment,Type) %>% 
+  summarise(uptake_mean=mean(uptake),
+            uptake_var=var(uptake),
+            uptake_min=min(uptake),
+            uptake_max=max(uptake))
+```
+
+**Author**: Gordana Popovic
+
+**Last updated**: `r format(Sys.time(), '%d %B, %Y')`

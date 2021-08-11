@@ -1,0 +1,224 @@
+---
+title: "Install R and RStudio"
+output: 
+    html_document
+---
+
+```{r include=FALSE}
+
+library(png)
+library(grid)
+
+```
+
+We need to install two things onto your computer. The first is **R**, the statistical software package we will use (R is also the name of the programming language we use in the software). After that, we need to install **RStudio**, which is a front end program that lets you write R code, view plots and do many other useful things. 
+
+If you have a previous installation of **R** and **RStudio** that you have not used much, please remove these first from your computer. Then download the current versions as per the instructions below.
+
+<br>
+
+## Install **R** 
+
+Download the **R** installer from <a href="https://cran.r-project.org/" target="_blank">https://cran.r-project.org/</a> by clicking on the link for your operating system. 
+
+Go to the Windows or Mac section in the instructions in this document below, as appropriate.
+
+```{r echo=FALSE, fig.height=5, fig.width=8}
+
+img <- readPNG("pics/Rinst.png")
+grid.raster(img)
+
+```
+
+
+<br>
+
+### 1. Windows
+
+1a. Click *install R for the first time*.
+
+```{r echo=FALSE, fig.height=4, fig.width=8}
+
+img <- readPNG("pics/Rinst2.png")
+grid.raster(img)
+
+```
+
+1b. Use the download link at the top and save the file. 
+
+*Make sure the installer is for R version 4.0.5.*
+
+
+```{r echo=FALSE, fig.height=4, fig.width=8}
+img <- readPNG("pics/Rinst3.png")
+grid.raster(img)
+```
+
+1c. Run the installer (double click). Default settings are fine. If you do not have admin rights on your laptop, then **ask IT**. If this is the case, it is important to ask them to give you full permissions to the **R** directories. Without this, you will not be able to install **R** packages. 
+
+
+
+### 2. Mac
+
+2a. Check the version of your Mac OS. 
+
+2b. If you have Mac OS 10.13 (High Sierra), 10.14 (Mojave), 10.15 (Catalina) or 11 (Big Sur), click the download link for **R** version 4.0.5.
+
+If you have Mac OS version 10.11 (El Capitan) or 10.12 (Sierra), click the download link for **R** version 3.6.3.nn.
+
+
+```{r echo=FALSE, fig.height=6, fig.width=8}
+
+img <- readPNG("pics/Rinst4.png")
+grid.raster(img)
+
+```
+
+
+2c. Run the installer (double click). Default settings are fine. If you do not have admin rights on your laptop, then **ask IT**. If this is the case, it is important to ask them to give you full permissions to the **R** directories. Without this, you will not be able to install **R** packages. 
+
+
+<br>
+
+## Install RStudio
+
+1. Wait until the **R** installer has finished.
+
+2. Download **RStudio** <a href="https://rstudio.com/products/rstudio/download/#download" target="_blank">https://rstudio.com/products/rstudio/download/#download</a>.
+
+
+The page should recommend the right file based on your system. If not, scroll down and download the installer for the appropriate free, **RStudio** Desktop version.
+
+```{r echo=FALSE, fig.height=6, fig.width=8}
+
+img <- readPNG("pics/InstallRstudio.png")
+grid.raster(img)
+
+```
+
+<br>
+
+## Check R and RStudio are working
+
+1. Open **RStudio**. It should look like the image below.
+
+2. We are going to try to run the following code. Follow the instructions below. 
+
+```{r eval=FALSE}
+
+install.packages("ggplot2")
+library(ggplot2)
+p <- ggplot(mtcars, aes(wt, mpg))
+p + geom_point(aes(size = qsec, colour = factor(cyl)))
+
+```
+
+ a. Copy the code above and paste it in the Console window in **RStudio**, by the `>` sign. Before you hit Enter, it will look like this.
+
+```{r echo=FALSE, fig.height=5, fig.width=8}
+
+img <- readPNG("pics/RunTestPre.png")
+grid.raster(img)
+
+```
+
+ b. Hit Enter. The code will run (it might take a minute or so) and there will be a plot created in the plot window at the bottom right.
+
+```{r echo=FALSE, fig.height=5, fig.width=8}
+
+img <- readPNG("pics/RunTestPost.png")
+grid.raster(img)
+
+```
+
+Your console may look a bit different to mine but, if you have a plot (bottom right) similar to mine, all is well, you have installed **R** and **RStudio** successfully. 
+
+c. **Please take a screenshot and email it to me.**
+
+<br>
+
+## Zoom configuration (Mac users)
+
+If you are a *Mac* user, there are two Zoom settings that need to be checked.
+
+1. Remote Control
+
+1a. Open Zoom. In the top right corner, click your personal icon and go to *My Profile*. This will take you to your Zoom profile in a web browser.
+
+1b. On the left, go to *Settings*. Then go to *In Meeting (Basic)*.
+
+
+```{r echo=FALSE, fig.height=5, fig.width=8}
+
+img <- readPNG("pics/ZoomMac1.png")
+grid.raster(img)
+
+```
+
+1c. Scroll down and find *Remote Control*. Please make sure both settings are turned on, as shown below, and then log out.
+
+
+```{r echo=FALSE, fig.height=5, fig.width=8}
+
+img <- readPNG("pics/ZoomMac2.png")
+grid.raster(img)
+
+```
+
+
+2. Permissions for Zoom web client
+
+2a. On your Mac, go to *System Preferences* (Apple Menu > System Preferences ...).
+
+2b. Click *Security & Privacy* and go to the *Privacy* tab.
+
+2c. Scroll down on the left to *Screen Recording*.
+
+
+```{r echo=FALSE, fig.height=5, fig.width=8}
+
+img <- readPNG("pics/ZoomMac3.png")
+grid.raster(img)
+
+```
+
+
+2d. Click the lock in the bottom left corner and enter your Mac password to open the lock, so you can make changes.
+
+2e. Tick the box next to Google Chrome.
+
+2f. Click the lock to close it. You should not need to make any more changes.
+
+(The info on these settings is here: https://support.zoom.us/hc/en-us/articles/360016688031)
+
+
+<br>
+
+## Set up your screen (optional)
+
+Setting up your screen well from the start will help get you coding fast. We strongly recommend you try the setups recommended below. The *lessons* look a lot like **RStudio**, and it is easy to get confused between your own code and the lesson code. To differentiate the two visually, we recommend you change your **RStudio** theme to something with a dark background. 
+
+1. In **RStudio** go to Tools > Global Options.
+2. Choose 'Appearance'.
+3. Under 'Editor theme' chose 'Idle Fingers' (or another dark theme).
+
+If you have dual monitors, you're all set. Put **RStudio** on one and everything else on the other. If you have a single monitor, then you need to be a little more organised.  
+
+1. Put **RStudio** on the left half of your monitor.
+2. Inside **RStudio**, grab the vertical bar between the Console and the Files/Plot windows and squish it to the right, until you mostly just see the Console. 
+3. Put Zoom in the top left corner, taking up about a third of the vertical space. Sometimes I will ask you to go full screen on Zoom. Practise going from full screen to top right corner.
+4. Put your browser in the bottom right, taking up the other two-thirds of the vertical space.
+
+```{r echo=FALSE, fig.height=5, fig.width=8}
+
+img <- readPNG("pics/ScreenSetup.png")
+grid.raster(img)
+
+```
+
+
+<br>
+
+**Author**: Gordana Popovic
+
+**Last updated**: `r format(Sys.time(), '%d %B, %Y')`

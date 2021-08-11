@@ -1,0 +1,69 @@
+---
+title: "Packages and the tidyverse"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Installing packages and the tidyverse package
+
+Once upon a time there was only base R. Code was ugly and impossible to read, plots were ugly and difficult to make. Then one day, the tidyverse was created, and R became usable by mere humans. Because you are learning R in a post tidyverse time, you will likely not know any base R (except the tiny bit I taught you already). From here on we will all live happily ever after in the tidyverse.
+
+Packages in R are just bits of extra code other people have writtin that you can use. You will be installing packages all the time in your R travels, they are what makes R so useful and flexible. It is very easy to do. You need to know the name of the package (in this case tidyverse) and then you can just call the `install.packages()` function. You only have to do this once on each computer.
+
+```{r eval=FALSE}
+install.packages("tidyverse")
+```
+
+This will take a little while, the tidyverse is vast. The main packages we wiil be using that are inside the tidyverse are `tidyr`, `dplyr` for manipulating data, and `ggplot2` for plotting.
+
+To be able to use a package we have installed we need to load the pakage using the `library()` command. Loading a package must be done every time you open R/RStudio.
+```{r}
+library(tidyr)
+```
+
+## The Pipe
+
+One of the great inventions of the tidyverse is the Pipe ( `%>%` ). It lets us organise code in a way that is more readable. You can find it in the `tidyr` package we loaded above.
+
+Say I want to take the numbers 1 to 5, *then* take the sine, *then* take the absolute value, *then* the square root. In base R the code for that looks like this. 
+
+```{r}
+x=1:5
+sqrt(abs(sin(x)))
+```
+
+This is okay, but a bit hard to read, and it's a bit unclear which bracket belongs where. Using the pipe (and reading the pipe as "then") we can write the same operation more naturally.
+
+```{r}
+x %>% sin %>% abs %>% sqrt
+```
+
+This will make our life easier when our code gets more complicated. 
+
+## Challenges
+
+```{r  include=FALSE}
+x=(1:6)^6
+```
+
+1. Install and load the `DHARMa` R package.
+
+## Challenge solutions
+
+1. Install and load the `DHARMa` R package.
+
+```{r eval=FALSE}
+install.packages("DHARMa")
+library(DHARMa)
+```
+
+
+
+**Author**: Gordana Popovic
+
+**Last updated**: `r format(Sys.time(), '%d %B, %Y')`
+
