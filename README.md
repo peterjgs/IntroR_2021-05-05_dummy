@@ -4,7 +4,7 @@ Welcome to [Stats Central](https://www.analytical.unsw.edu.au/facilities/stats-c
 
 ### Feedback
 
-Your feedback would be much appreciated. [Click here](https://forms.gle/14SNJN3GMQsjoLmL7){target=”_blank” rel=”noopener”}
+Your feedback would be much appreciated. [Click here](https://forms.gle/14SNJN3GMQsjoLmL7){:target="_blank" rel="noopener"}
 
 <br>
 
@@ -12,7 +12,7 @@ Your feedback would be much appreciated. [Click here](https://forms.gle/14SNJN3G
 
 This site will be available for a limited amount of time, so I recommend that you download and save all the lessons, or print them as pdf from your browser.
 
-* [1 --- Basics of interacting with R](Lessons/basics.html){target=”_blank” rel=”noopener”}
+* [1 --- Basics of interacting with R](Lessons/basics.html){:target="_blank" rel="noopener"}
 * [2 --- Importing data, packages and the tidyverse](Lessons/import_package_tidy.html){:target="_blank" rel="noopener"}
 * [3 --- Plotting in R with ggplot2](Lessons/ggplot2Intro.html){:target="_blank" rel="noopener"} 
 * [4 --- Subsetting and summarising data with dplyr](Lessons/dplyrIntro.html){:target="_blank" rel="noopener"} 
@@ -25,7 +25,7 @@ This site will be available for a limited amount of time, so I recommend that yo
 * [1 --- Basics of interacting with R](Lessons/basics_sol.html){:target="_blank" rel="noopener"}
 * [2 --- Importing data, packages and the tidyverse](Lessons/import_package_tidy_sol.html){:target="_blank" rel="noopener"}
 * [3 --- Plotting in R with ggplot2](Lessons/ggplot2Intro_sol.html){:target="_blank" rel="noopener"} 
-* [4 --- Subsetting and summarising data with dplyr](Lessons/dplyrIntro_sol.html){:target="_blank" rel="noopener"} 
+* [4 --- Subsetting and summarising data with dplyr](Lessons/dplyrIntro_sol.html){target=”_blank” rel=”noopener”} 
 
 
 <br>
