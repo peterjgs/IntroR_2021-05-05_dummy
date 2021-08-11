@@ -27,6 +27,8 @@ This site will be available for a limited amount of time, so I recommend that yo
 * [3 --- Plotting in R with ggplot2](Lessons/ggplot2Intro_sol.html){:target="_blank" rel="noopener"} 
 * [4 --- Subsetting and summarising data with dplyr](Lessons/dplyrIntro_sol.html){target=”_blank” rel=”noopener”} 
 
+In the last line, curly quotes in the README.md file are the problem!
+
 
 <br>
 
